@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 
 const rawPort = process.env.PORT ?? '5173';
 const port = Number(rawPort);
-const basePath = ' /jorielstudio?';
+const basePath = process.env.BASE_PATH ?? '/';
 
 export default defineConfig({
   base: basePath,
