@@ -32,4 +32,9 @@ The project is standalone and does not need `PORT`, `BASE_PATH`, Replit, or any 
 npm run build
 npm run serve
 npm run typecheck
+npm run optimize:images
 ```
+
+Before adding full-resolution photos under `public/assets`, keep a separate copy of
+the originals. `npm run optimize:images` resizes supported images to at most
+2400 × 2400 pixels and recompresses them in place to reduce website download size.
