@@ -9,7 +9,7 @@
     "optimize:images": "node scripts/optimize-images.mjs",
     "build:pages": "vite build --base=/jorielstudio/",
     "predeploy": "npm run build:pages",
-    "deploy": "gh-pages -d dist",
+    "deploy": "gh-pages -d dist --before-add scripts/force-pages-assets.cjs",
     "serve": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
