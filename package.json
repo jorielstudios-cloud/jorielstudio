@@ -7,7 +7,8 @@
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "optimize:images": "node scripts/optimize-images.mjs",
-    "predeploy": "npm run build",
+    "build:pages": "vite build --base=/jorielstudio/",
+    "predeploy": "npm run build:pages",
     "deploy": "gh-pages -d dist",
     "serve": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit"

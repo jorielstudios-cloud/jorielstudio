@@ -30,10 +30,14 @@ The project is standalone and does not need `PORT`, `BASE_PATH`, Replit, or any 
 
 ```bash
 npm run build
+npm run build:pages
 npm run serve
 npm run typecheck
 npm run optimize:images
 ```
+
+`npm run deploy` builds with the GitHub Pages project-site base path and publishes
+the result to the `gh-pages` branch.
 
 Before adding full-resolution photos under `public/assets`, keep a separate copy of
 the originals. `npm run optimize:images` resizes supported images to at most
