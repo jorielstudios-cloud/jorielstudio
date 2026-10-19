@@ -1,4 +1,4 @@
-﻿import { type FormEvent, type ReactNode, useState } from 'react';
+import { type ReactNode, useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   ArrowUpRight,
@@ -9,7 +9,6 @@ import {
   Menu,
   MessageCircle,
   Phone,
-  Send,
   X,
 } from 'lucide-react';
 import {
@@ -31,6 +30,7 @@ const asset = (path: string) => `${import.meta.env.BASE_URL}assets/${path}`;
 const logoPath = asset('joriel-logo.jpg');
 const whatsappNumber = '254748344466';
 const studioMapUrl = 'https://maps.app.goo.gl/nxyCXXXgmZr9LjG47?g_st=aw';
+const bookingScheduleUrl = 'https://calendar.app.google/kU7bFjb37NiKVQkr8';
 
 const portfolioItems = [
   { title: 'Quiet confidence', kind: 'Portraits', image: asset('portfolio/PORTRAITS/DSC_8421.JPG') },
@@ -434,29 +434,7 @@ function About() {
 }
 
 function Booking() {
-  const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: '', phone: '', service: 'Studio portrait', date: '', time: '', location: '', message: '' });
-  function submit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    const message = [
-      'Hello Joriel Studios, I would like to make a booking.',
-      '',
-      `Name: ${form.name}`,
-      `Phone: ${form.phone}`,
-      `Service: ${form.service}`,
-      `Date: ${form.date}`,
-      `Time: ${form.time}`,
-      `Location: ${form.location || 'To be confirmed'}`,
-      `Notes: ${form.message || 'No extra notes'}`,
-    ].join('\n');
-    openWhatsApp(message);
-    setSent(true);
-  }
-  return <Shell><main><PageIntro number="05" title={<>Let us make<br /><em className="text-[#f5bd4e]">a plan.</em></>} body="Share a few details and your request will open in WhatsApp, where we can talk through the good stuff." image={portfolioItems[0].image} /><section className="bg-[#e3b7a0] px-5 py-6 md:px-10 lg:px-14"><div className="mx-auto grid max-w-[1200px] gap-3 sm:grid-cols-3">{[['01', 'Choose a service'], ['02', 'Share your details'], ['03', 'Confirm on WhatsApp']].map(([number, label], index) => <div key={number} className={`flex items-center gap-3 border-t pt-3 ${index === 0 ? 'border-[#d84c24]' : 'border-[#3c1117]/25'}`}><span className="font-mono-ui text-xs text-[#d84c24]">{number}</span><span className="text-sm font-semibold text-[#3c1117]">{label}</span></div>)}</div></section><section className="bg-[#f4eddf] px-5 py-16 md:px-10 md:py-24 lg:px-14"><div className="mx-auto grid max-w-[1200px] gap-14 lg:grid-cols-[.65fr_1.35fr]"><div><Eyebrow>Booking request</Eyebrow><h2 className="mt-5 font-display text-4xl leading-[1.05] text-[#3c1117]">Start with<br />the basics.</h2><div className="mt-10 space-y-5 border-t border-[#3c1117]/20 pt-5 text-sm leading-6 text-[#56363a]"><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Booking fee: Ksh 1,000 redeemable and non-refundable.</p><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Delivery within 3 days maximum.</p><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Outdoor booking fee is 50%-70% of rate cost.</p></div></div><form onSubmit={submit} className="grid gap-6 sm:grid-cols-2" aria-label="Booking request form"><Field label="Your name" id="name" required value={form.name} onChange={(value) => setForm({ ...form, name: value })} /><Field label="Phone number" id="phone" required value={form.phone} onChange={(value) => setForm({ ...form, phone: value })} /><label className="block"><span className="font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#56363a]">What are we photographing?</span><select required value={form.service} onChange={(event) => setForm({ ...form, service: event.target.value })} className="focus-ring mt-3 w-full border-0 border-b border-[#3c1117]/25 bg-transparent px-0 py-3 text-sm text-[#3c1117]" data-testid="select-booking-service"><option>Studio portrait</option><option>Wedding photography</option><option>Graduation shoot</option><option>Birthday or event coverage</option><option>Brand or product shoot</option><option>Bump shoot</option><option>Podcast shoot</option><option>Family & group shoot</option><option>Executive family shoot</option><option>Passport photography</option><option>Outdoor shot</option><option>Corporate package</option><option>Product shot</option><option>Events package</option></select></label><Field label="Shoot location" id="location" value={form.location} onChange={(value) => setForm({ ...form, location: value })} /><Field label="Preferred date" id="date" type="date" required value={form.date} onChange={(value) => setForm({ ...form, date: value })} /><Field label="Preferred time" id="time" type="time" required value={form.time} onChange={(value) => setForm({ ...form, time: value })} /><label className="block sm:col-span-2"><span className="font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#56363a]">Tell us a little more</span><textarea value={form.message} onChange={(event) => setForm({ ...form, message: event.target.value })} rows={4} placeholder="The occasion, location, number of people, or the feeling you have in mind…" className="focus-ring mt-3 w-full resize-y border-0 border-b border-[#3c1117]/25 bg-transparent px-0 py-3 text-sm text-[#3c1117] placeholder:text-[#9a6e63]" data-testid="textarea-booking-message" /></label><div className="flex flex-col items-start gap-4 sm:col-span-2 sm:flex-row sm:items-center"><button type="submit" className="focus-ring inline-flex items-center gap-3 bg-[#3c1117] px-6 py-4 text-[11px] font-bold uppercase tracking-[.16em] text-[#f7eee2] transition-transform hover:-translate-y-0.5" data-testid="button-submit-booking">Open WhatsApp <Send size={15} /></button>{sent && <p className="text-xs text-[#d84c24]" role="status" data-testid="status-booking-sent">Your request is ready in WhatsApp.</p>}</div></form></div></section></main></Shell>;
-}
-
-function Field({ label, id, required = false, value, onChange, type = 'text' }: { label: string; id: string; required?: boolean; value: string; onChange: (value: string) => void; type?: string }) {
-  return <label className="block"><span className="font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#56363a]">{label}{required && <span className="ml-1 text-[#d84c24]">*</span>}</span><input required={required} id={id} type={type} value={value} onChange={(event) => onChange(event.target.value)} className="focus-ring mt-3 w-full border-0 border-b border-[#3c1117]/25 bg-transparent px-0 py-3 text-sm text-[#3c1117]" data-testid={`input-booking-${id}`} /></label>;
+  return <Shell><main><PageIntro number="05" title={<>Let us make<br /><em className="text-[#f5bd4e]">a plan.</em></>} body="Choose an available time on our Google booking page. Once you finish booking, that slot is reserved in the studio calendar." image={portfolioItems[0].image} /><section className="bg-[#e3b7a0] px-5 py-6 md:px-10 lg:px-14"><div className="mx-auto grid max-w-[1200px] gap-3 sm:grid-cols-3">{[['01', 'Choose an available time'], ['02', 'Add your booking details'], ['03', 'Your time is reserved']].map(([number, label], index) => <div key={number} className={`flex items-center gap-3 border-t pt-3 ${index === 0 ? 'border-[#d84c24]' : 'border-[#3c1117]/25'}`}><span className="font-mono-ui text-xs text-[#d84c24]">{number}</span><span className="text-sm font-semibold text-[#3c1117]">{label}</span></div>)}</div></section><section className="bg-[#f4eddf] px-5 py-16 md:px-10 md:py-24 lg:px-14"><div className="mx-auto grid max-w-[1200px] gap-14 lg:grid-cols-[.65fr_1.35fr]"><div><Eyebrow>Book a session</Eyebrow><h2 className="mt-5 font-display text-4xl leading-[1.05] text-[#3c1117]">Pick a time<br />that works.</h2><div className="mt-10 space-y-5 border-t border-[#3c1117]/20 pt-5 text-sm leading-6 text-[#56363a]"><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Sessions are scheduled in 60-minute slots.</p><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Available times update as bookings are made.</p><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Booking fee: Ksh 1,000 redeemable and non-refundable.</p><p className="flex gap-3"><Check size={17} className="mt-1 shrink-0 text-[#d84c24]" />Need help choosing a service? <button type="button" onClick={() => openWhatsApp('Hello Joriel Studios, I need help choosing a service and booking a session.')} className="focus-ring font-semibold text-[#d84c24] underline underline-offset-4" data-testid="button-booking-whatsapp-help">Ask us on WhatsApp</button></p></div></div><div className="flex flex-col items-start justify-center gap-5 border border-[#3c1117]/20 bg-[#f8f2e8] p-7 sm:p-10"><Eyebrow>Live availability</Eyebrow><p className="max-w-lg text-sm leading-7 text-[#56363a]">Choose one of the available times in Google Calendar. Once your booking is complete, that time is removed from availability so another client can’t reserve it.</p><a href={bookingScheduleUrl} target="_blank" rel="noopener noreferrer" className="focus-ring inline-flex items-center gap-3 bg-[#3c1117] px-6 py-4 text-[11px] font-bold uppercase tracking-[.16em] text-[#f7eee2] transition-transform hover:-translate-y-0.5" data-testid="link-google-booking">Choose a time <ArrowUpRight size={16} /></a><p className="font-mono-ui text-[10px] uppercase tracking-[.12em] text-[#9a6e63]">Secure booking page by Google Calendar</p></div></div></section></main></Shell>;
 }
 
 function Contact() {
